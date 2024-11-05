@@ -1,35 +1,31 @@
 package ee.ivkhkdev.carpartshop.services;
 
-import ee.ivkhkdev.carpartshop.helpers.FileHelper;
-import ee.ivkhkdev.carpartshop.interfaces.IPurchaseService;
+import ee.ivkhkdev.carpartshop.model.PurchasedProduct;
+import ee.ivkhkdev.carpartshop.repositories.Storage;
 import ee.ivkhkdev.carpartshop.model.Customer;
 import ee.ivkhkdev.carpartshop.model.Product;
-import ee.ivkhkdev.carpartshop.model.PurchasedProduct;
 
-import java.io.IOException;
 import java.util.List;
 
-public class PurchaseService implements IPurchaseService {
-    private final List<PurchasedProduct> purchases;
-    private final FileHelper<PurchasedProduct> fileHelper;
-    private static final String PURCHASE_FILE = "purchases.dat";
+public class PurchaseService {
+
+    private final Storage<PurchasedProduct> purchaseStorage;
 
     public PurchaseService() {
-        fileHelper = new FileHelper<>();
-        purchases = fileHelper.loadFromFile(PURCHASE_FILE);
+        this.purchaseStorage = new Storage<>("purchases.dat");
     }
 
-    @Override
     public void purchaseProduct(Customer customer, Product product) {
-        purchases.add(new PurchasedProduct(customer, product));
+        PurchasedProduct purchase = new PurchasedProduct(customer, product);
+        purchaseStorage.save(purchase);  // Save purchase using Storage
     }
 
-    @Override
     public List<PurchasedProduct> getPurchasedProducts() {
-        return purchases;
+        return purchaseStorage.load();  // Load purchases from file
     }
 
-    public void savePurchases() throws IOException {
-        fileHelper.saveToFile(PURCHASE_FILE, purchases);
+    public void savePurchases() {
+        // If you want to batch save purchases, you can use this method
+        // purchaseStorage.saveAll(purchaseList);
     }
 }

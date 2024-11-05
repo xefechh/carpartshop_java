@@ -1,33 +1,28 @@
 package ee.ivkhkdev.carpartshop.services;
 
-import ee.ivkhkdev.carpartshop.helpers.FileHelper;
-import ee.ivkhkdev.carpartshop.interfaces.IProductService;
 import ee.ivkhkdev.carpartshop.model.Product;
+import ee.ivkhkdev.carpartshop.repositories.Storage;
 
-import java.io.IOException;
 import java.util.List;
 
-public class ProductService implements IProductService {
-    private final List<Product> products;
-    private final FileHelper<Product> fileHelper;
-    private static final String PRODUCT_FILE = "products.dat";
+public class ProductService {
+
+    private final Storage<Product> productStorage;
 
     public ProductService() {
-        fileHelper = new FileHelper<>();
-        products = fileHelper.loadFromFile(PRODUCT_FILE);
+        this.productStorage = new Storage<>("products.dat");
     }
 
-    @Override
-    public void addProduct(String name, double price) {
-        products.add(new Product(name, price));
+    public void addProduct(String name, float price) {
+        Product product = new Product(name, price);
+        productStorage.save(product);  // Save product using Storage
     }
 
-    @Override
     public List<Product> getProducts() {
-        return products;
+        return productStorage.load();  // Load products from file
     }
 
-    public void saveProducts() throws IOException {
-        fileHelper.saveToFile(PRODUCT_FILE, products);
+    public void saveProducts() {
+        // Optionally save all at once if needed, but in this case each save happens individually
     }
 }

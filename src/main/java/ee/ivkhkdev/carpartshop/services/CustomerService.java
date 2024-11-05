@@ -1,33 +1,28 @@
 package ee.ivkhkdev.carpartshop.services;
 
-import ee.ivkhkdev.carpartshop.helpers.FileHelper;
-import ee.ivkhkdev.carpartshop.interfaces.ICustomerService;
 import ee.ivkhkdev.carpartshop.model.Customer;
+import ee.ivkhkdev.carpartshop.repositories.Storage;
 
-import java.io.IOException;
 import java.util.List;
 
-public class CustomerService implements ICustomerService {
-    private final List<Customer> customers;
-    private final FileHelper<Customer> fileHelper;
-    private static final String CUSTOMER_FILE = "customers.dat";
+public class CustomerService {
+
+    private final Storage<Customer> customerStorage;
 
     public CustomerService() {
-        fileHelper = new FileHelper<>();
-        customers = fileHelper.loadFromFile(CUSTOMER_FILE);
+        this.customerStorage = new Storage<>("customers.dat");
     }
 
-    @Override
     public void addCustomer(String name) {
-        customers.add(new Customer(name));
+        Customer customer = new Customer(name);
+        customerStorage.save(customer);  // Save customer using Storage
     }
 
-    @Override
     public List<Customer> getCustomers() {
-        return customers;
+        return customerStorage.load();  // Load customers from file
     }
 
-    public void saveCustomers() throws IOException {
-        fileHelper.saveToFile(CUSTOMER_FILE, customers);
+    public void saveCustomers() {
+        // Optionally save all at once if needed, but in this case each save happens individually
     }
 }
