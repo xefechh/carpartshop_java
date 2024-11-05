@@ -19,9 +19,9 @@ public class ShopApp {
         Input input = new ConsoleInput(new Scanner(System.in));
 
         // Initialize repositories
-        Repository<Customer> customerStorage = new Storage<>("customers.dat");
-        Repository<Product> productStorage = new Storage<>("products.dat");
-        Repository<PurchasedProduct> purchasedProductStorage = new Storage<>("purchasedProducts.dat");
+        Repository<Customer> customerStorage = new Storage<>("customers");
+        Repository<Product> productStorage = new Storage<>("products");
+        Repository<PurchasedProduct> purchasedProductStorage = new Storage<>("purchasedProducts");
 
         // Initialize services with appropriate repositories
         ProductService productService = new ProductService((Storage<Product>) productStorage);
