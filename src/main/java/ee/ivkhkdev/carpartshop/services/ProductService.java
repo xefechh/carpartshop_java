@@ -9,8 +9,8 @@ public class ProductService {
 
     private final Storage<Product> productStorage;
 
-    public ProductService() {
-        this.productStorage = new Storage<>("products.dat");
+    public ProductService(Storage<Product> productStorage) {
+        this.productStorage = productStorage;
     }
 
     public void addProduct(String name, float price) {
@@ -23,6 +23,7 @@ public class ProductService {
     }
 
     public void saveProducts() {
-        // Optionally save all at once if needed, but in this case each save happens individually
+        // Optionally save all at once if needed
     }
 }
+

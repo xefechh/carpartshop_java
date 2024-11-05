@@ -11,8 +11,8 @@ public class PurchaseService {
 
     private final Storage<PurchasedProduct> purchaseStorage;
 
-    public PurchaseService() {
-        this.purchaseStorage = new Storage<>("purchases.dat");
+    public PurchaseService(Storage<PurchasedProduct> purchaseStorage) {
+        this.purchaseStorage = purchaseStorage;
     }
 
     public void purchaseProduct(Customer customer, Product product) {
@@ -25,7 +25,6 @@ public class PurchaseService {
     }
 
     public void savePurchases() {
-        // If you want to batch save purchases, you can use this method
-        // purchaseStorage.saveAll(purchaseList);
+        // Save purchases in batch if required
     }
 }

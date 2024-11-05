@@ -1,73 +1,55 @@
 package ee.ivkhkdev.carpartshop.services;
 
 import ee.ivkhkdev.carpartshop.model.Customer;
-import ee.ivkhkdev.carpartshop.interfaces.Repository;
-import ee.ivkhkdev.carpartshop.helpers.AppHelper;
+import ee.ivkhkdev.carpartshop.repositories.Storage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class CustomerServiceTest {
+class CustomerServiceTest {
 
     private CustomerService customerService;
-    private Repository<Customer> mockCustomerRepository;
-    private AppHelper mockAppHelper;
+    private Storage<Customer> mockStorage;
 
     @BeforeEach
     void setUp() {
-        // Mock dependencies
-        mockCustomerRepository = Mockito.mock(Repository.class);
-        mockAppHelper = Mockito.mock(AppHelper.class);
+        // Create mock of the Storage class
+        mockStorage = Mockito.mock(Storage.class);
 
-        // Initialize CustomerService with the mocked repository
-        customerService = new CustomerService(mockAppHelper, mockCustomerRepository);
+        // Pass mockStorage to the CustomerService constructor
+        customerService = new CustomerService(mockStorage);
     }
 
     @Test
-    void testAddCustomerSuccess() {
-        // Prepare: create a customer and mock repository behavior
-        Customer mockCustomer = new Customer("John Doe");
-        when(mockAppHelper.createCustomer()).thenReturn(mockCustomer);
+    void testAddCustomer() {
+        // Prepare input
+        String customerName = "John Doe";
 
-        // Execute the method
-        customerService.addCustomer();
+        // Call method
+        customerService.addCustomer(customerName);
 
-        // Verify that the customer was saved to the repository
-        verify(mockCustomerRepository, times(1)).save(mockCustomer);
+        // Verify that storage.save() was called once with a Customer object
+        verify(mockStorage, times(1)).save(any(Customer.class));
     }
 
     @Test
-    void testAddCustomerFailureWhenCustomerIsNull() {
-        // Mock that the customer creation returns null
-        when(mockAppHelper.createCustomer()).thenReturn(null);
+    void testGetCustomers() {
+        // Prepare mock behavior for load() method
+        List<Customer> mockCustomerList = List.of(new Customer("John Doe"));
+        when(mockStorage.load()).thenReturn(mockCustomerList);
 
-        // Execute the method
-        customerService.addCustomer();
+        // Call method
+        List<Customer> customers = customerService.getCustomers();
 
-        // Verify that the repository's save method was not called
-        verify(mockCustomerRepository, never()).save(any());
-    }
+        // Verify that load() was called once
+        verify(mockStorage, times(1)).load();
 
-    @Test
-    void testListCustomers() {
-        // Prepare a list of customers and mock repository behavior
-        List<Customer> mockCustomerList = List.of(
-                new Customer("John Doe"),
-                new Customer("Jane Doe")
-        );
-        when(mockCustomerRepository.load()).thenReturn(mockCustomerList);
-
-        // Execute the method
-        List<Customer> result = customerService.listCustomers();
-
-        // Verify the result
-        assertEquals(mockCustomerList, result);
-        verify(mockCustomerRepository, times(1)).load();
+        // Assert that the list is returned as expected
+        assert customers.size() == 1;
+        assert customers.get(0).name().equals("John Doe");
     }
 }
-

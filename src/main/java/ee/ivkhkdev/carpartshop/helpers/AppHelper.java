@@ -8,7 +8,6 @@ import ee.ivkhkdev.carpartshop.services.PurchaseService;
 import ee.ivkhkdev.carpartshop.model.Customer;
 import ee.ivkhkdev.carpartshop.model.Product;
 
-import java.io.IOException;
 import java.util.List;
 
 public class AppHelper {
@@ -17,11 +16,11 @@ public class AppHelper {
     private final CustomerService customerService;
     private final PurchaseService purchaseService;
 
-    public AppHelper(Input input) {
+    public AppHelper(Input input, ProductService productService, CustomerService customerService, PurchaseService purchaseService) {
         this.input = input;
-        this.productService = new ProductService();
-        this.customerService = new CustomerService();
-        this.purchaseService = new PurchaseService();
+        this.productService = productService;
+        this.customerService = customerService;
+        this.purchaseService = purchaseService;
     }
 
     public void run() {

@@ -4,38 +4,55 @@ import ee.ivkhkdev.carpartshop.model.Customer;
 import ee.ivkhkdev.carpartshop.model.Product;
 import ee.ivkhkdev.carpartshop.model.PurchasedProduct;
 import ee.ivkhkdev.carpartshop.repositories.Storage;
-import ee.ivkhkdev.carpartshop.interfaces.Repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 
-public class PurchaseServiceTest {
+class PurchaseServiceTest {
 
     private PurchaseService purchaseService;
-    private Repository<PurchasedProduct> mockPurchaseRepository;
+    private Storage<PurchasedProduct> mockStorage;
 
     @BeforeEach
     void setUp() {
-        // Mock dependencies
-        mockPurchaseRepository = Mockito.mock(Repository.class);
+        // Create mock of the Storage class
+        mockStorage = Mockito.mock(Storage.class);
 
-        // Initialize PurchaseService with the mocked repository
-        purchaseService = new PurchaseService(mockPurchaseRepository);
+        // Pass mockStorage to the PurchaseService constructor
+        purchaseService = new PurchaseService(mockStorage);
     }
 
     @Test
     void testPurchaseProduct() {
-        // Prepare customer and product for the test
-        Customer mockCustomer = new Customer("John Doe");
-        Product mockProduct = new Product("Test Product", 99.99f);
-        PurchasedProduct mockPurchase = new PurchasedProduct(mockCustomer, mockProduct);
+        // Prepare input
+        Customer customer = new Customer("John Doe");
+        Product product = new Product("Product A", 19.99f);
 
-        // Execute the method
-        purchaseService.purchaseProduct(mockCustomer, mockProduct);
+        // Call method
+        purchaseService.purchaseProduct(customer, product);
 
-        // Verify that the purchase was saved to the repository
-        verify(mockPurchaseRepository, times(1)).save(mockPurchase);
+        // Verify interaction with save method
+        verify(mockStorage, times(1)).save(any(PurchasedProduct.class));
+    }
+
+    @Test
+    void testGetPurchasedProducts() {
+        // Prepare mock behavior for load() method
+        List<PurchasedProduct> mockPurchaseList = List.of(
+                new PurchasedProduct(new Customer("John Doe"), new Product("Product A", 19.99f)),
+                new PurchasedProduct(new Customer("Jane Smith"), new Product("Product B", 29.99f))
+        );
+        when(mockStorage.load()).thenReturn(mockPurchaseList);
+
+        // Call method
+        List<PurchasedProduct> purchases = purchaseService.getPurchasedProducts();
+
+        // Verify results
+        verify(mockStorage, times(1)).load();
+        assert purchases.size() == 2;
     }
 }
