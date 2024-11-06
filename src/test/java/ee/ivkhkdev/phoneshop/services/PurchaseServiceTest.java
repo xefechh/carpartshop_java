@@ -1,9 +1,9 @@
-package ee.ivkhkdev.carpartshop.services;
+package ee.ivkhkdev.phoneshop.services;
 
-import ee.ivkhkdev.carpartshop.model.Customer;
-import ee.ivkhkdev.carpartshop.model.Product;
-import ee.ivkhkdev.carpartshop.model.PurchasedProduct;
-import ee.ivkhkdev.carpartshop.repositories.Storage;
+import ee.ivkhkdev.phoneshop.model.Customer;
+import ee.ivkhkdev.phoneshop.model.Product;
+import ee.ivkhkdev.phoneshop.model.PurchasedProduct;
+import ee.ivkhkdev.phoneshop.repositories.Storage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

@@ -1,8 +1,7 @@
-package ee.ivkhkdev.carpartshop.inputs;
+package ee.ivkhkdev.phoneshop.inputs;
 
-import ee.ivkhkdev.carpartshop.interfaces.Input;
+import ee.ivkhkdev.phoneshop.interfaces.Input;
 
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class ConsoleInput implements Input {

@@ -1,4 +1,4 @@
-package ee.ivkhkdev.carpartshop.model;
+package ee.ivkhkdev.phoneshop.model;
 
 import java.io.Serializable;
 

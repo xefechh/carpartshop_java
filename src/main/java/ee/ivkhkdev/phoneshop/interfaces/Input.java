@@ -1,4 +1,4 @@
-package ee.ivkhkdev.carpartshop.interfaces;
+package ee.ivkhkdev.phoneshop.interfaces;
 
 public interface Input {
     String nextLine();

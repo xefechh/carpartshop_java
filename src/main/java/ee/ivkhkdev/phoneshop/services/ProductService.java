@@ -1,7 +1,7 @@
-package ee.ivkhkdev.carpartshop.services;
+package ee.ivkhkdev.phoneshop.services;
 
-import ee.ivkhkdev.carpartshop.model.Product;
-import ee.ivkhkdev.carpartshop.repositories.Storage;
+import ee.ivkhkdev.phoneshop.model.Product;
+import ee.ivkhkdev.phoneshop.repositories.Storage;
 
 import java.util.List;
 

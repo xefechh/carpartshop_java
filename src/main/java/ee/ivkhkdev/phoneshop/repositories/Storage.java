@@ -1,7 +1,7 @@
-package ee.ivkhkdev.carpartshop.repositories;
+package ee.ivkhkdev.phoneshop.repositories;
 
 
-import ee.ivkhkdev.carpartshop.interfaces.Repository;
+import ee.ivkhkdev.phoneshop.interfaces.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
